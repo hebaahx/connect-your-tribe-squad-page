@@ -1,0 +1,40 @@
+{% render 'partials/head.liquid', title: 'Squad page' %}
+
+<header>
+  <h1>Favoriet Seizoen</h1>
+</header>
+
+<main>
+  <nav class="seizoen-filter">
+    <a href="/favorietseizoen" class="reset">↺</a>
+    <a href="/favorietseizoen?season=Lente" class="{% if season == 'Lente' %}active{% endif %}">
+      <img src="/assets/flower.svg" alt="Lente">
+    </a>
+    <a href="/favorietseizoen?season=Zomer" class="{% if season == 'Zomer' %}active{% endif %}">
+      <img src="/assets/sun.svg" alt="Zomer">
+    </a>
+    <a href="/favorietseizoen?season=Herfst" class="{% if season == 'Herfst' %}active{% endif %}">
+      <img src="/assets/leaves.svg" alt="Herfst">
+    </a>
+    <a href="/favorietseizoen?season=Winter" class="{% if season == 'Winter' %}active{% endif %}">
+      <img src="/assets/snow.svg" alt="Winter">
+    </a>
+  </nav>
+
+  <article class="mugshots">
+    {% for person in persons %}
+      <figure class="facecard">
+        {% if person.mugshot %}
+          <img src="https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500" alt="foto van {{ person.name }}">
+        {% else %}
+          <img src="/assets/nopic.jpg" alt="geen foto">
+        {% endif %}
+        <figcaption>
+          <a href="/student/{{ person.id }}">{{ person.name }}</a>
+        </figcaption>
+      </figure>
+    {% endfor %}
+  </article>
+</main>
+
+{% render 'partials/foot.liquid', squads: squads %}
