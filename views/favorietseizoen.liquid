@@ -1,27 +1,55 @@
-{% render 'partials/head.liquid', title: 'Squad page' %}
+{% render 'partials/head.liquid', title: 'Squad page', season: season %}
 
 <header>
-  <h1>Favoriet Seizoen</h1>
+  <h1>
+  {% if season %}
+    Favoriet seizoen: {{ season }}
+  {% else %}
+    Favoriete seizoenen van studenten
+  {% endif %}
+</h1>
 </header>
 
 <main>
   <nav class="seizoen-filter">
-    <a href="/favorietseizoen" class="reset">↺</a>
-    <a href="/favorietseizoen?season=Lente" class="{% if season == 'Lente' %}active{% endif %}">
-      <img src="/assets/flower.svg" alt="Lente">
+    <a href="/favorietseizoen" class="reset">
+      Toon alle studenten
     </a>
-    <a href="/favorietseizoen?season=Zomer" class="{% if season == 'Zomer' %}active{% endif %}">
+
+    <a href="/favorietseizoen?season=Lente"
+      class="season lente {% if season == 'Lente' %}active{% endif %}">
+    <img src="/assets/flower.svg" alt="Lente">
+    </a>
+
+    <a href="/favorietseizoen?season=Zomer"
+      class="season zomer {% if season == 'Zomer' %}active{% endif %}">
       <img src="/assets/sun.svg" alt="Zomer">
     </a>
-    <a href="/favorietseizoen?season=Herfst" class="{% if season == 'Herfst' %}active{% endif %}">
+
+    <a href="/favorietseizoen?season=Herfst"
+      class="season herfst {% if season == 'Herfst' %}active{% endif %}">
       <img src="/assets/leaves.svg" alt="Herfst">
     </a>
-    <a href="/favorietseizoen?season=Winter" class="{% if season == 'Winter' %}active{% endif %}">
+
+    <a href="/favorietseizoen?season=Winter"
+      class="season winter {% if season == 'Winter' %}active{% endif %}">
       <img src="/assets/snow.svg" alt="Winter">
     </a>
   </nav>
 
+  {% if season %}
+    <p class="filter-feedback">
+      Je bekijkt nu studenten die <strong>{{ season }}</strong> als favoriet seizoen hebben.
+    </p>
+  {% else %}
+    <p class="filter-feedback">
+      Je ziet alle studenten. Kies een seizoen om te filteren.
+    </p>
+  {% endif %}
+
+
   <article class="mugshots">
+
     {% for person in persons %}
       <figure class="facecard">
         {% if person.mugshot %}
@@ -34,6 +62,14 @@
         </figcaption>
       </figure>
     {% endfor %}
+
+    {% if persons.size == 0 %}
+      <p class="empty-state">
+        Geen studenten gevonden voor dit seizoen 😢  
+        Probeer een andere filter.
+      </p>
+    {% endif %}
+
   </article>
 </main>
 
